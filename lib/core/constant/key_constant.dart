@@ -1,0 +1,3 @@
+class KeyConstant {
+  KeyConstant._();
+}
