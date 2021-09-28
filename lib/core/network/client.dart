@@ -4,11 +4,15 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:try_starter/core/constant/key_constant.dart';
 import 'package:try_starter/env/config.dart';
+import 'package:try_starter/storage/local_storage.dart';
 
 class Client {
-  Client({required this.config});
+  Client({required this.config, required this.prefs});
+
   late Config config;
+  late SharedPrefs prefs;
 
   Dio get dio => _getDio();
 
@@ -18,7 +22,9 @@ class Client {
         connectTimeout: 20000,
         receiveTimeout: 30000,
         receiveDataWhenStatusError: true,
-        headers: <String, dynamic>{'isToken': 'ghjklkwuio'});
+        headers: <String, dynamic>{
+          'isToken': prefs.isKeyExists(KeyConstant.keyAccessToken)
+        });
 
     final dio = Dio(options);
 
@@ -30,6 +36,8 @@ class Client {
   Interceptor _loginInterceptor() {
     return InterceptorsWrapper(
       onRequest: (options, handler) {
+        final storageToken = prefs.getString(KeyConstant.keyAccessToken);
+
         print("--> ${options.method}  ${"${options.baseUrl}${options.path}"}");
         print('Headers:');
         options.headers.forEach((k, dynamic v) => print('$k: $v'));
@@ -41,7 +49,8 @@ class Client {
 
         if (options.headers.containsKey('isToken')) {
           options.headers.remove('isToken');
-          // options.headers.addAll({'Authorization': 'Bearer $storageToken'});
+          options.headers.addAll(
+              <String, dynamic>{'Authorization': 'Bearer $storageToken'});
         }
 
         // Do something before request is sent
@@ -70,7 +79,7 @@ class Client {
 
         return handler.next(response); // continue
       },
-      onError: (e, handler) {
+      onError: (DioError e, handler) {
         return handler.next(e);
       },
     );

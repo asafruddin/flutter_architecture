@@ -1,7 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:get_it/get_it.dart';
-import 'package:try_starter/bloc/login/login_bloc_bloc.dart';
+import 'package:try_starter/bloc/login/login_bloc.dart';
 import 'package:try_starter/core/network/client.dart';
 import 'package:try_starter/data/datasource/binding/binding_local.dart';
 import 'package:try_starter/data/datasource/binding/binding_remote.dart';
@@ -28,7 +28,7 @@ Future<void> init() async {
 
   ///[network]
   sl.registerLazySingleton(() => sl<Client>().dio);
-  sl.registerLazySingleton(() => Client(config: sl()));
+  sl.registerLazySingleton(() => Client(config: sl(), prefs: sl()));
 
   ///[data]
   sl.registerFactory(() => BindingLocal(sl()));

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:try_starter/core/constant/api_path_constant.dart';
 import 'package:try_starter/core/di/injector_container.dart';
-import 'package:try_starter/data/datasource/binding_datasources.dart';
+import 'package:try_starter/data/datasource/binding_data_sources.dart';
 import 'package:try_starter/data/model/request/login_body.dart';
 import 'package:try_starter/data/model/response/user_response/login_model.dart';
 import 'package:try_starter/domain/entity/user_entity/login_entity.dart';
@@ -14,8 +15,9 @@ class BindingRemote implements BindingDataSources {
 
   @override
   Stream<LoginEntity> requestLogin(LoginBody body) async* {
-    final Response response =
-        await _client.post<Response>('/v1/auth/login', data: body.toJson());
+    final response =
+        await _client.post<dynamic>(ApiPath.login, data: body.toJson());
+
     yield LoginModel.fromJson(response.data as Map<String, dynamic>);
   }
 }

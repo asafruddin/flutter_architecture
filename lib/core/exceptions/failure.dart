@@ -1,15 +1,20 @@
+// ignore_for_file: overridden_fields
+
 import 'package:equatable/equatable.dart';
 
 abstract class Failure extends Equatable {
-  const Failure();
+  const Failure({this.message});
+
+  final dynamic message;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [message];
 }
 
 class ServerFailure extends Failure {
   const ServerFailure({this.message});
 
+  @override
   final dynamic message;
 
   @override
@@ -19,6 +24,7 @@ class ServerFailure extends Failure {
 class SocketFailure extends Failure {
   const SocketFailure({this.message});
 
+  @override
   final String? message;
 
   @override
@@ -28,6 +34,7 @@ class SocketFailure extends Failure {
 class CacheFailure extends Failure {
   const CacheFailure(this.message);
 
+  @override
   final String? message;
 
   @override
@@ -37,6 +44,7 @@ class CacheFailure extends Failure {
 class AnotherFailure extends Failure {
   const AnotherFailure(this.message);
 
+  @override
   final String? message;
 
   @override

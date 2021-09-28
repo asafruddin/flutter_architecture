@@ -1,6 +1,6 @@
 import 'package:try_starter/data/datasource/binding/binding_local.dart';
 import 'package:try_starter/data/datasource/binding/binding_remote.dart';
-import 'package:try_starter/data/datasource/binding_datasources.dart';
+import 'package:try_starter/data/datasource/binding_data_sources.dart';
 import 'package:try_starter/data/datasource/common/base_datasource_factory.dart';
 
 class BindingDataSourceFactory
