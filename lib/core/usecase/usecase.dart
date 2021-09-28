@@ -10,7 +10,6 @@ abstract class UseCase<Type, Params> {
   Stream<Either<Failure, Type>> execute(Params params) {
     return build(params).onErrorResume((error, stackTrace) {
       Failure failure;
-
       if (error is Failure) {
         failure = error;
       } else if (error is DioError) {

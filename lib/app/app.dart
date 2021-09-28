@@ -1,12 +1,6 @@
-// Copyright (c) 2021, Very Good Ventures
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/route_manager.dart';
 import 'package:try_starter/l10n/l10n.dart';
 import 'package:try_starter/presentation/login/login_page.dart';
 
@@ -15,7 +9,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         theme: ThemeData(
             appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
             colorScheme:
