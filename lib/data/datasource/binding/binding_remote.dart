@@ -20,4 +20,14 @@ class BindingRemote implements BindingDataSources {
 
     yield LoginModel.fromJson(response.data as Map<String, dynamic>);
   }
+
+  @override
+  Stream<String> getPreferredLanguage() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<void> updatePreferredLanguage(String code) {
+    throw UnimplementedError();
+  }
 }

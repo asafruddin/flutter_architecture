@@ -4,4 +4,5 @@ class KeyConstant {
   /// GLOBAL KEY CONSTANT
   /// key access token, store the access token after login
   static const String keyAccessToken = 'keyAccessToken';
+  static const String keyLanguage = 'keyLanguage';
 }

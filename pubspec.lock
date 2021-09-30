@@ -182,7 +182,7 @@ packages:
       name: dart_style
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.1.1"
   dartz:
     dependency: "direct main"
     description:
@@ -571,7 +571,7 @@ packages:
       name: source_gen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.0.3"
   source_helper:
     dependency: transitive
     description:
