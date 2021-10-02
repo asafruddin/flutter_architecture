@@ -47,7 +47,8 @@ class _AppState extends State<App> {
           if (state is LanguageLoaded) {
             return GetMaterialApp(
                 locale: Get.deviceLocale,
-                theme: CreateTheme.themeData,
+                theme: CreateTheme.lightTheme,
+                darkTheme: CreateTheme.darkTheme,
                 themeMode: Get.isDarkMode ? ThemeMode.dark : ThemeMode.light,
                 supportedLocales:
                     Languages.languages.map((e) => Locale(e.code!)).toList(),

@@ -74,9 +74,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   AppBar buildAppBar() {
-    return AppBar(actions: [
+    return AppBar(backgroundColor: Colors.transparent, elevation: 0, actions: [
       DropdownButton<String>(
           value: selectedLanguage,
+          underline: const SizedBox(),
           onChanged: onChangeLanguage,
           items: Languages.languages
               .map((e) =>
@@ -89,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Stack(children: [
       Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text(R.login.t(context)!),
+        Text(R.login.t(context)!, style: Theme.of(context).textTheme.subtitle1),
         TextFieldForm(controller: userController, hintText: 'Username'),
         const SizedBox(height: 10),
         TextFieldForm(controller: passController, hintText: 'Password'),
