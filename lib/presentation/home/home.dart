@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:try_starter/core/constant/key_constant.dart';
+import 'package:try_starter/core/di/injector_container.dart';
+import 'package:try_starter/storage/local_storage.dart';
+import 'package:try_starter/utils/ui/theme.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,22 +15,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final SharedPrefs _prefs = sl<SharedPrefs>();
   ThemeBrightness theme = ThemeBrightness.light;
 
   void onSaveTheme() {
     Get.back<dynamic>();
     if (theme == ThemeBrightness.light) {
       Get.changeThemeMode(ThemeMode.light);
+      _prefs.putBool(KeyConstant.keyThemeDark, false);
     } else {
       Get.changeThemeMode(ThemeMode.dark);
+      _prefs.putBool(KeyConstant.keyThemeDark, true);
     }
   }
 
   @override
   void initState() {
     super.initState();
-
-    theme = Get.isDarkMode ? ThemeBrightness.dark : ThemeBrightness.light;
+    final isDark = _prefs.isKeyExists(KeyConstant.keyThemeDark)
+        ? _prefs.getBool(KeyConstant.keyThemeDark)
+        : Get.isDarkMode;
+    theme = isDark! ? ThemeBrightness.dark : ThemeBrightness.light;
   }
 
   Future<void> showChangeTheme() {
@@ -46,7 +55,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Column(children: [
                   RadioListTile<ThemeBrightness>(
                       dense: true,
-                      title: const Text('Light'),
+                      title: Text('Light',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                  color: Get.isDarkMode
+                                      ? CreateTheme.pureWhite
+                                      : null)),
                       value: ThemeBrightness.light,
                       contentPadding: const EdgeInsets.all(0),
                       groupValue: theme,
@@ -54,7 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() => theme = value!)),
                   RadioListTile<ThemeBrightness>(
                       dense: true,
-                      title: const Text('Dark'),
+                      title: Text('Dark',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                  color: Get.isDarkMode
+                                      ? CreateTheme.pureWhite
+                                      : null)),
                       contentPadding: const EdgeInsets.all(0),
                       value: ThemeBrightness.dark,
                       groupValue: theme,
@@ -68,6 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(title: const Text('Home')),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {}, child: const Icon(Icons.add)),
         body: Center(
             child: ElevatedButton(
                 onPressed: showChangeTheme,

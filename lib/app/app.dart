@@ -39,6 +39,9 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     final isLogin = _prefs.isKeyExists(KeyConstant.keyAccessToken);
+    final isDarkTheme = _prefs.isKeyExists(KeyConstant.keyThemeDark)
+        ? _prefs.getBool(KeyConstant.keyThemeDark)
+        : Get.isDarkMode;
 
     return BlocProvider<LanguageBloc>.value(
         value: _languageBloc,
@@ -49,7 +52,7 @@ class _AppState extends State<App> {
                 locale: Get.deviceLocale,
                 theme: CreateTheme.lightTheme,
                 darkTheme: CreateTheme.darkTheme,
-                themeMode: Get.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                themeMode: isDarkTheme! ? ThemeMode.dark : ThemeMode.light,
                 supportedLocales:
                     Languages.languages.map((e) => Locale(e.code!)).toList(),
                 localizationsDelegates: const [

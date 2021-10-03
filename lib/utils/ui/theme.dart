@@ -4,13 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CreateTheme {
   /// Global Color
-  static const Color primary = Color(0xFF13B9FF);
+  static const Color primary = Color(0xFFFF2D55);
+  static const Color primaryVariant = Color(0xFFFF2DAA);
+  static const Color secondary = Color(0xFFFCC21B);
+  static const Color secondaryVariant = Color(0xFFFCC2AF);
+  static const Color pureWhite = Color(0xFFFFFFFF);
+  static const Color lightSurface = Color(0xFF8E8E93);
+  static const Color surface = Color(0xFF212123);
 
   /// light color
   static const Color lightBackground = Color(0xFFF2F4F5);
 
   /// dark color
-  static const Color darkBackground = Color(0xFF030405);
+  static const Color darkBackground = Color(0xFF0E0F15);
 
   /// text theme
   static final textTheme = TextTheme(
@@ -39,15 +45,75 @@ class CreateTheme {
       overline: GoogleFonts.inter(
           fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5));
 
+  /// color scheme light
+  static const lightColorScheme = ColorScheme(
+      primary: primary,
+      primaryVariant: primaryVariant,
+      secondary: secondary,
+      secondaryVariant: secondaryVariant,
+      surface: lightSurface,
+      background: lightBackground,
+      error: Colors.red,
+      onPrimary: lightBackground,
+      onSecondary: lightBackground,
+      onSurface: lightBackground,
+      onBackground: surface,
+      onError: lightBackground,
+      brightness: Brightness.light);
+
+  /// color scheme dark
+  static const darkColorScheme = ColorScheme(
+      primary: primary,
+      primaryVariant: primaryVariant,
+      secondary: secondary,
+      secondaryVariant: secondaryVariant,
+      surface: surface,
+      background: darkBackground,
+      error: Colors.red,
+      onPrimary: pureWhite,
+      onSecondary: pureWhite,
+      onSurface: pureWhite,
+      onBackground: pureWhite,
+      onError: darkBackground,
+      brightness: Brightness.light);
+
+  /// floating action button theme
+  static const floatingActionButtonTheme =
+      FloatingActionButtonThemeData(backgroundColor: primary);
+
+  /// light dialog theme
+  static final lightDialogTheme = DialogTheme(
+      backgroundColor: lightSurface,
+      titleTextStyle: textTheme.headline5,
+      contentTextStyle: textTheme.bodyText2);
+
+  /// dark dialog theme
+  static final darkDialogTheme = DialogTheme(
+      backgroundColor: surface,
+      titleTextStyle: textTheme.headline5,
+      contentTextStyle: textTheme.bodyText2);
+
+  /// radio theme
+  static final radioTheme = RadioThemeData(
+      fillColor: MaterialStateProperty.all(primary),
+      overlayColor: MaterialStateProperty.all(primary.withOpacity(0.1)));
+
   /// Light Theme Data
   static final lightTheme = ThemeData(
       primaryColor: primary,
       scaffoldBackgroundColor: lightBackground,
+      colorScheme: lightColorScheme,
+      floatingActionButtonTheme: floatingActionButtonTheme,
+      radioTheme: radioTheme,
       textTheme: textTheme);
 
   /// Dark Theme Data
   static final darkTheme = ThemeData(
       primaryColor: primary,
       scaffoldBackgroundColor: darkBackground,
+      floatingActionButtonTheme: floatingActionButtonTheme,
+      colorScheme: darkColorScheme,
+      dialogTheme: darkDialogTheme,
+      radioTheme: radioTheme,
       textTheme: textTheme);
 }
