@@ -106,6 +106,7 @@ class CreateTheme {
       fillColor: MaterialStateProperty.all(primary),
       overlayColor: MaterialStateProperty.all(primary.withOpacity(0.1)));
 
+  /// app bar theme data
   static const appBarTheme = AppBarTheme(backgroundColor: primary);
 
   /// Light Theme Data
