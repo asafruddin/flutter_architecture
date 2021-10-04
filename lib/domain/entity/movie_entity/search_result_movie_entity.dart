@@ -7,7 +7,7 @@ class SearchResultMovieEntity extends Equatable {
 
   final String? totalResults;
   final String? Response;
-  final ResultMovieEntity? Search;
+  final List<ResultMovieEntity>? Search;
 
   @override
   List<Object?> get props => [totalResults, Response, Search];

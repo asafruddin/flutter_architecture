@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
             final snackBar = SnackBar(content: Text(state.message));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else if (state is LoginSuccess) {
-            Get.to<dynamic>(() => const HomeScreen());
+            Get.off<dynamic>(() => const HomeScreen());
           }
         });
   }

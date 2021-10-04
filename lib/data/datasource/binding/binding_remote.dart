@@ -39,6 +39,7 @@ class BindingRemote implements BindingDataSources {
       SearchMovieBody body) async* {
     final response = await _client.get<dynamic>(
         'https://www.omdbapi.com/?s=${body.search}&apikey=cb75a074&r=json');
+
     yield SearchResultMovieModel.fromJson(
         response.data as Map<String, dynamic>);
   }

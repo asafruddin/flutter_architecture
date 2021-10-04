@@ -4,19 +4,27 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CreateTheme {
   /// Global Color
-  static const Color primary = Color(0xFFFF2D55);
-  static const Color primaryVariant = Color(0xFFFF2DAA);
+  static const Color primary = Color(0xFF7E16A7);
+  static const Color primaryVariant = Color(0xFF4B0C93);
   static const Color secondary = Color(0xFFFCC21B);
   static const Color secondaryVariant = Color(0xFFFCC2AF);
   static const Color pureWhite = Color(0xFFFFFFFF);
   static const Color lightSurface = Color(0xFF8E8E93);
-  static const Color surface = Color(0xFF212123);
+  static const Color error = Color(0xFFDC3545);
+  static const Color onPrimary = pureWhite;
+  static const Color onError = pureWhite;
 
   /// light color
   static const Color lightBackground = Color(0xFFF2F4F5);
+  static const Color surface = pureWhite;
+  static const Color onLightBackground = Color(0xFF1F1F1F);
+  static const Color onLightSurface = onLightBackground;
 
   /// dark color
   static const Color darkBackground = Color(0xFF0E0F15);
+  static const Color darkSurface = Color(0xFF000000);
+  static const Color onDarkBacground = pureWhite;
+  static const Color onDarkSurface = pureWhite;
 
   /// text theme
   static final textTheme = TextTheme(
@@ -56,9 +64,9 @@ class CreateTheme {
       error: Colors.red,
       onPrimary: lightBackground,
       onSecondary: lightBackground,
-      onSurface: lightBackground,
-      onBackground: surface,
-      onError: lightBackground,
+      onSurface: onLightSurface,
+      onBackground: onLightBackground,
+      onError: onError,
       brightness: Brightness.light);
 
   /// color scheme dark
@@ -67,15 +75,15 @@ class CreateTheme {
       primaryVariant: primaryVariant,
       secondary: secondary,
       secondaryVariant: secondaryVariant,
-      surface: surface,
+      surface: darkSurface,
       background: darkBackground,
       error: Colors.red,
       onPrimary: pureWhite,
       onSecondary: pureWhite,
-      onSurface: pureWhite,
-      onBackground: pureWhite,
-      onError: darkBackground,
-      brightness: Brightness.light);
+      onSurface: onDarkSurface,
+      onBackground: onDarkBacground,
+      onError: onError,
+      brightness: Brightness.dark);
 
   /// floating action button theme
   static const floatingActionButtonTheme =
@@ -98,6 +106,8 @@ class CreateTheme {
       fillColor: MaterialStateProperty.all(primary),
       overlayColor: MaterialStateProperty.all(primary.withOpacity(0.1)));
 
+  static const appBarTheme = AppBarTheme(backgroundColor: primary);
+
   /// Light Theme Data
   static final lightTheme = ThemeData(
       primaryColor: primary,
@@ -105,11 +115,13 @@ class CreateTheme {
       colorScheme: lightColorScheme,
       floatingActionButtonTheme: floatingActionButtonTheme,
       radioTheme: radioTheme,
+      appBarTheme: appBarTheme,
       textTheme: textTheme);
 
   /// Dark Theme Data
   static final darkTheme = ThemeData(
       primaryColor: primary,
+      appBarTheme: appBarTheme,
       scaffoldBackgroundColor: darkBackground,
       floatingActionButtonTheme: floatingActionButtonTheme,
       colorScheme: darkColorScheme,
