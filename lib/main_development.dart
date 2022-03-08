@@ -5,7 +5,6 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:try_starter/app/app.dart';
 import 'package:try_starter/app/app_bloc_observer.dart';
@@ -53,16 +52,5 @@ void main() {
 
 /// environment configuration
 Future<FlavorSetting> getFlavorSetting() async {
-  final flavor =
-      await const MethodChannel('flavor').invokeMethod<String>('getFlavor');
-  switch (flavor) {
-    case 'development':
-      return FlavorSetting.development();
-    case 'staging':
-      return FlavorSetting.staging();
-    case 'production':
-      return FlavorSetting.production();
-    default:
-      throw Exception('㊗️ Oopss... Flavor name missing');
-  }
+  return FlavorSetting.development();
 }

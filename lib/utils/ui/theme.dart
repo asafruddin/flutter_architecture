@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreateTheme {
@@ -56,9 +55,7 @@ class CreateTheme {
   /// color scheme light
   static const lightColorScheme = ColorScheme(
       primary: primary,
-      primaryVariant: primaryVariant,
       secondary: secondary,
-      secondaryVariant: secondaryVariant,
       surface: lightSurface,
       background: lightBackground,
       error: Colors.red,
@@ -72,9 +69,7 @@ class CreateTheme {
   /// color scheme dark
   static const darkColorScheme = ColorScheme(
       primary: primary,
-      primaryVariant: primaryVariant,
       secondary: secondary,
-      secondaryVariant: secondaryVariant,
       surface: darkSurface,
       background: darkBackground,
       error: Colors.red,
