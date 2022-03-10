@@ -1,13 +1,10 @@
-// ignore_for_file: sort_constructors_first
+// ignore_for_file: sort_constructors_first, cascade_invocations
 
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:try_starter/core/constant/key_constant.dart';
 import 'package:try_starter/core/di/injector_container.dart';
-import 'package:try_starter/core/exceptions/failure.dart';
 import 'package:try_starter/data/model/request/login_body.dart';
-import 'package:try_starter/domain/entity/user_entity/login_entity.dart';
 import 'package:try_starter/domain/usecase/user_usecase/login_usecase.dart';
 import 'package:try_starter/storage/local_storage.dart';
 
@@ -15,28 +12,23 @@ part 'login_bloc_event.dart';
 part 'login_bloc_state.dart';
 
 class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
-  LoginBloc(this.useCase) : super(LoginBlocInitial());
   final LoginUseCase useCase;
 
   final SharedPrefs prefs = sl<SharedPrefs>();
+  LoginBloc(this.useCase) : super(LoginBlocInitial()) {
+    on<OnLoginEvent>((event, emit) async {
+      emit(LoginLoading());
 
-  @override
-  Stream<LoginBlocState> mapEventToState(LoginBlocEvent event) async* {
-    if (event is OnLoginEvent) {
-      yield LoginLoading();
+      final response = useCase.execute(event.body!);
 
-      // ignore: omit_local_variable_types
-      final Stream<Either<Failure, LoginEntity>> response =
-          useCase.execute(event.body!);
-
-      await for (final eventRes in response) {
-        yield* eventRes.fold((l) async* {
-          yield LoginFailure(l.message.toString());
-        }, (r) async* {
+      response.listen((event) {
+        event.fold((l) async => emit(LoginFailure(l.message.toString())),
+            (r) async {
+          print("LOGIN SUCCESS");
           await prefs.putString(KeyConstant.keyAccessToken, r.data!.token!);
-          yield LoginSuccess();
+          emit(LoginSuccess());
         });
-      }
-    }
+      });
+    });
   }
 }
