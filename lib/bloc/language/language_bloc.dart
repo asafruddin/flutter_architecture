@@ -14,33 +14,26 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   LanguageBloc(
       {required this.getPreferredLanguageUseCase,
       required this.updatePreferredLanguageUseCase})
-      : super(LanguageLoaded(Locale(Languages.languages.first.code!)));
-
-  late final GetPreferredLanguageUseCase getPreferredLanguageUseCase;
-  late final UpdatePreferredLanguageUseCase updatePreferredLanguageUseCase;
-
-  @override
-  Stream<LanguageState> mapEventToState(LanguageEvent event) async* {
-    if (event is ToggleLanguageEvent) {
+      : super(LanguageLoaded(Locale(Languages.languages.first.code!))) {
+    on<ToggleLanguageEvent>((event, emit) {
       updatePreferredLanguageUseCase
           .execute(event.language!.code!)
           .listen((event) => add(LoadPreferredLanguageEvent()));
-    } else if (event is LoadPreferredLanguageEvent) {
+    });
+    on<LoadPreferredLanguageEvent>((event, emit) async {
       final response = getPreferredLanguageUseCase.execute(NoParams());
 
       await for (final eventRes in response) {
-        yield* eventRes.fold((l) async* {
-          yield LanguageError();
-        }, (r) async* {
-          Get.updateLocale(Locale(r));
-          yield LanguageLoaded(Locale(r));
+        await eventRes.fold((l) {
+          emit(LanguageError());
+        }, (r) async {
+          await Get.updateLocale(Locale(r));
+          emit(LanguageLoaded(Locale(r)));
         });
       }
-    }
+    });
   }
 
-  @override
-  Future<void> close() {
-    return super.close();
-  }
+  late final GetPreferredLanguageUseCase getPreferredLanguageUseCase;
+  late final UpdatePreferredLanguageUseCase updatePreferredLanguageUseCase;
 }

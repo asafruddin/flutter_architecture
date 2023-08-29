@@ -112,8 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 16),
-                        decoration:
-                            const BoxDecoration(color: Color(0xFF292929)),
+                        decoration: const BoxDecoration(),
                         child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

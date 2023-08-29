@@ -15,28 +15,25 @@ part 'login_bloc_event.dart';
 part 'login_bloc_state.dart';
 
 class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
-  LoginBloc(this.useCase) : super(LoginBlocInitial());
-  final LoginUseCase useCase;
-
-  final SharedPrefs prefs = sl<SharedPrefs>();
-
-  @override
-  Stream<LoginBlocState> mapEventToState(LoginBlocEvent event) async* {
-    if (event is OnLoginEvent) {
-      yield LoginLoading();
+  LoginBloc(this.useCase) : super(LoginBlocInitial()) {
+    on<OnLoginEvent>((event, emit) async {
+      emit(LoginLoading());
 
       // ignore: omit_local_variable_types
       final Stream<Either<Failure, LoginEntity>> response =
           useCase.execute(event.body!);
 
       await for (final eventRes in response) {
-        yield* eventRes.fold((l) async* {
-          yield LoginFailure(l.message.toString());
-        }, (r) async* {
+        await eventRes.fold((l) async {
+          emit(LoginFailure(l.message.toString()));
+        }, (r) async {
           await prefs.putString(KeyConstant.keyAccessToken, r.data!.token!);
-          yield LoginSuccess();
+          emit(LoginSuccess());
         });
       }
-    }
+    });
   }
+  final LoginUseCase useCase;
+
+  final SharedPrefs prefs = sl<SharedPrefs>();
 }

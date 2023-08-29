@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Stack(children: [
       Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text(R.login.t(context)!, style: Theme.of(context).textTheme.subtitle1),
+        Text(R.login.t(context)!, style: Theme.of(context).textTheme.bodyLarge),
         TextFieldForm(controller: userController, hintText: 'Username'),
         const SizedBox(height: 10),
         TextFieldForm(controller: passController, hintText: 'Password'),

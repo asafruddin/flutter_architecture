@@ -19,8 +19,8 @@ class Client {
   Dio _getDio() {
     final options = BaseOptions(
         baseUrl: config.apiBaseUrl!,
-        connectTimeout: 20000,
-        receiveTimeout: 30000,
+        connectTimeout: const Duration(milliseconds: 20000),
+        receiveTimeout: const Duration(milliseconds: 30000),
         receiveDataWhenStatusError: true,
         headers: <String, dynamic>{
           'isToken': prefs.isKeyExists(KeyConstant.keyAccessToken)
