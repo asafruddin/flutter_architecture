@@ -21,8 +21,8 @@ class BindingDataSourceFactory
       case DataSourceState.network:
         return _bindingRemote!;
       default:
-        throw UnsupportedError('''
-DataSourceState $dataSourceState is not applicable in BindingDataSourceFactory''');
+        throw UnsupportedError(
+            '''DataSourceState $dataSourceState is not applicable in BindingDataSourceFactory''');
     }
   }
 }

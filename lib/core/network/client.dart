@@ -56,10 +56,9 @@ class Client {
         // Do something before request is sent
         debugPrint('\n'
             '-- headers --\n'
-            '${options.headers.toString()} \n'
+            '${options.headers} \n'
             '-- request --\n -->body'
-            '${options.data} \n'
-            '');
+            '${options.data} \n');
 
         return handler.next(options); //continue
         // If you want to resolve the request with some custom data，
@@ -72,14 +71,13 @@ class Client {
         debugPrint('\n'
             'Response : ${response.requestOptions.uri} \n'
             '-- headers --\n'
-            '${response.headers.toString()} \n'
+            '${response.headers} \n'
             '-- response --\n'
-            '${jsonEncode(response.data)} \n'
-            '');
+            '${jsonEncode(response.data)} \n');
 
         return handler.next(response); // continue
       },
-      onError: (DioError e, handler) {
+      onError: (DioException e, handler) {
         return handler.next(e);
       },
     );

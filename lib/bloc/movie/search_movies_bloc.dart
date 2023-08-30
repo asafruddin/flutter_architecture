@@ -12,7 +12,9 @@ class SearchMoviesBloc {
 
   final _moviesData = BehaviorSubject<SearchResultMovieEntity>();
 
-  Function(SearchResultMovieEntity) get updateMovies => _moviesData.sink.add;
+  void updateMovies(SearchResultMovieEntity event) {
+    _moviesData.sink.add(event);
+  }
 
   Stream<SearchResultMovieEntity> get data => _moviesData.stream;
 
@@ -21,7 +23,7 @@ class SearchMoviesBloc {
       event.fold<dynamic>((l) {
         print('something went wrong when get data movies : $l');
         _moviesData.addError(l);
-      }, (r) => updateMovies(r));
+      }, updateMovies);
     });
   }
 

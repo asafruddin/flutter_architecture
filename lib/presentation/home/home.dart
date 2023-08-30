@@ -1,5 +1,7 @@
 // ignore_for_file: use_named_constants, avoid_print
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:try_starter/bloc/movie/search_movies_bloc.dart';
@@ -21,6 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final _searchBloc = sl<SearchMoviesBloc>();
 
   final SharedPrefs _prefs = sl<SharedPrefs>();
+
+  final searchOpen = ValueNotifier(false);
+
+  Timer? _debounce;
+
   ThemeBrightness theme = ThemeBrightness.light;
 
   void onSaveTheme() {
@@ -47,6 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _searchBloc.fetchSearchMovies(body);
   }
 
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
   Future<void> showChangeTheme() {
     return showDialog<void>(
         context: context,
@@ -67,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: Text('Light',
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyMedium!
                               .copyWith(
                                   color: Get.isDarkMode
                                       ? CreateTheme.pureWhite
@@ -82,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: Text('Dark',
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyMedium!
                               .copyWith(
                                   color: Get.isDarkMode
                                       ? CreateTheme.pureWhite
@@ -100,7 +113,50 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Home')),
+        appBar: AppBar(
+          title: ValueListenableBuilder<bool>(
+              valueListenable: searchOpen,
+              builder: (context, value, child) {
+                if (value) {
+                  const border = OutlineInputBorder();
+                  return TextFormField(
+                    style: Theme.of(context).textTheme.bodySmall,
+                    onChanged: (value) {
+                      if (_debounce?.isActive ?? false) _debounce?.cancel();
+                      _debounce = Timer(const Duration(seconds: 1), () {
+                        _searchBloc.fetchSearchMovies(
+                            SearchMovieBody(page: '1', search: value));
+                      });
+                    },
+                    decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                        border: border,
+                        enabledBorder: border,
+                        fillColor: Colors.white,
+                        filled: true,
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            searchOpen.value = false;
+                          },
+                          child: const Icon(Icons.cancel_outlined),
+                        )),
+                  );
+                }
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Home'),
+                    IconButton(
+                      onPressed: () {
+                        searchOpen.value = !searchOpen.value;
+                      },
+                      icon: const Icon(Icons.search),
+                    ),
+                  ],
+                );
+              }),
+        ),
         body: StreamBuilder<SearchResultMovieEntity>(
             stream: _searchBloc.data,
             builder: (context, snapshot) {
@@ -131,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Text(data?.Search?[i].Title ?? '',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6,
+                                            .titleLarge,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis),
                                     Row(
@@ -139,15 +195,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text(data?.Search?[i].Year ?? '',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText2),
+                                                .bodySmall),
                                         Text(' | ',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .caption),
+                                                .labelSmall),
                                         Text(data?.Search?[i].Type ?? '',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText2)
+                                                .bodySmall)
                                       ],
                                     ),
                                   ])),

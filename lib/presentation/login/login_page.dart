@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -64,12 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<LoginBloc, LoginBlocState>(
         child: Scaffold(appBar: buildAppBar(), body: buildMainContent()),
         listener: (context, state) {
+          Get.off<dynamic>(() => const HomeScreen());
           if (state is LoginFailure) {
             final snackBar = SnackBar(content: Text(state.message));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          } else if (state is LoginSuccess) {
-            Get.off<dynamic>(() => const HomeScreen());
-          }
+          } else if (state is LoginSuccess) {}
         });
   }
 
